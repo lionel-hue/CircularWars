@@ -5,7 +5,7 @@
             "includePath": [
                 "../**",
                 "/usr/include/**"
-            ],
+            ], 
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
