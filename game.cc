@@ -7,8 +7,8 @@
 * 
 */
 
-#include "./raylib/raylib.h"
-#include "./declare.h"
+#include "raylib.h"
+#include "declare.h"
 #include <cstdio>
 
 

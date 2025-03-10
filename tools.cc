@@ -1,5 +1,5 @@
-#include "./declare.h"
-#include "./raylib/raylib.h"
+#include "declare.h"
+#include "raylib.h"
 #include <random>
 
 

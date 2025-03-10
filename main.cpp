@@ -1,8 +1,8 @@
 #define RAYGUI_IMPLEMENTATION
 
-#include "raylib/raylib.h"
-#include "raylib/raygui.h"
-#include "./declare.h"
+#include "raylib.h"
+#include "raygui.h"
+#include "declare.h"
 
 #include <vector>
 #include <cmath>
