@@ -4,8 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "../**",
-                "/usr/include/**"
-            ], 
+                "/usr/include/**",
+                "${workspaceFolder}/raylib"
+            ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
