@@ -23,7 +23,7 @@ int main( /*int argc, char **argv*/void )
     // Game Window and target fps set...
     InitWindow( screenX, screenY, "Circular Wars" );
     InitAudioDevice();
-    Music music = LoadMusicStream("../audio/la_espada.mp3");
+    Music music = LoadMusicStream("../audio/Mortals x Royalty Mashup.mp3");
     PlayMusicStream(music); 
     SetTargetFPS(60);
     Game::font = LoadFont("../fonts/BAUHS93.TTF"); 
