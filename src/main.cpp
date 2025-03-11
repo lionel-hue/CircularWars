@@ -22,11 +22,14 @@ int main( /*int argc, char **argv*/void )
 {
     // Game Window and target fps set...
     InitWindow( screenX, screenY, "Circular Wars" );
-    InitAudioDevice();
-    Music music = LoadMusicStream("../audio/Mortals x Royalty Mashup.mp3");
-    PlayMusicStream(music); 
     SetTargetFPS(60);
-    Game::font = LoadFont("../fonts/BAUHS93.TTF"); 
+    Game::font = LoadFont("../fonts/BAUHS93.TTF");
+
+    InitAudioDevice();
+    Sound shoot = LoadSound("../audio/laser-gun-81720.mp3");
+    Sound game_over = LoadSound("../audio/game-over-deep-robotic-voice-tomas-herudek-1-1-00-03.mp3");
+    Music background_music = LoadMusicStream("../audio/Warriyo - Mortals (feat. Laura Brehm).mp3");
+    PlayMusicStream(background_music);  
 
 
 
@@ -67,10 +70,12 @@ int main( /*int argc, char **argv*/void )
 
     while( !WindowShouldClose() ) 
     {
-        UpdateMusicStream(music);
+        UpdateMusicStream(background_music);
         //Game::Projectiles creation..
         if( IsMouseButtonPressed( MOUSE_RIGHT_BUTTON ) || IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) )
         {
+            PlaySound(shoot);
+
             double angle = atan2(
             GetMouseY() - screenY/2, 
             GetMouseX() - screenX/2);
@@ -167,6 +172,9 @@ int main( /*int argc, char **argv*/void )
                     {
                         enemies.erase(enemies.begin() + i);
                         Game::over = true;
+                        StopSound(shoot);
+                        StopMusicStream(background_music);
+                        PlaySound(game_over);
                         break;
                     }
                     else if( dist - player.radius - enemies[i].radius <= 0 )
@@ -217,8 +225,11 @@ int main( /*int argc, char **argv*/void )
         EndDrawing();  
     }
 
-    UnloadMusicStream(music);
+    UnloadMusicStream(background_music);
+    UnloadSound(shoot);
+    UnloadSound(game_over);
     CloseAudioDevice();
+
     UnloadFont(Game::font);
     CloseWindow();
     return 0;
