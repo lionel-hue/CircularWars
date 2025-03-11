@@ -1,0 +1,1 @@
+g++ ../src/main.cpp ../src/tools.cc ../src/game.cc -o ../main -L./raylib -I./raylib -lraylib -lm -ldl -lpthread -lX11
