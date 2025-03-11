@@ -1,7 +1,7 @@
 #ifndef DECLARE_H
 #define DECLARE_H
 
-#include "./raylib/raylib.h"
+#include "raylib.h"
 #include <vector>
 #include <random>
 

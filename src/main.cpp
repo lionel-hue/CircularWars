@@ -22,8 +22,11 @@ int main( /*int argc, char **argv*/void )
 {
     // Game Window and target fps set...
     InitWindow( screenX, screenY, "Circular Wars" );
+    InitAudioDevice();
+    Music music = LoadMusicStream("../audio/la_espada.mp3");
+    PlayMusicStream(music); 
     SetTargetFPS(60);
-    Game::font = LoadFont("./BAUHS93.TTF"); 
+    Game::font = LoadFont("../fonts/BAUHS93.TTF"); 
 
 
 
@@ -43,11 +46,10 @@ int main( /*int argc, char **argv*/void )
         Color{ 255, 255, 255, 255 }
     );
 
-
     //Player's Health instance
     Game::Health health
     (   
-        "./health.png", 
+        "../assets/health.png", 
         Vector2{
             (float)screenX - 150,
             15.0f,
@@ -65,6 +67,7 @@ int main( /*int argc, char **argv*/void )
 
     while( !WindowShouldClose() ) 
     {
+        UpdateMusicStream(music);
         //Game::Projectiles creation..
         if( IsMouseButtonPressed( MOUSE_RIGHT_BUTTON ) || IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) )
         {
@@ -110,9 +113,9 @@ int main( /*int argc, char **argv*/void )
         
 
 
-        if (/*!Game::over*/true)
+        if (!Game::over)
         {
-            if (/*!Game::pause*/true)
+            if (!Game::pause)
             {
 
                 //Draw Score and it's current value
@@ -185,7 +188,7 @@ int main( /*int argc, char **argv*/void )
         }
         else
         {
-            Font font = LoadFont("./impact.ttf");
+            Font font = LoadFont("../fonts/impact.ttf");
             Vector2 fontSize = MeasureTextEx(font, "Game Over!", 100.0f, 1.0f);
 
             DrawRectangle(
@@ -210,13 +213,12 @@ int main( /*int argc, char **argv*/void )
             );
             //TraceLog(LOG_INFO, "Game Over font Size, x : %.1f, y : %.1f", Game::fontSize.x, Game::fontSize.y);
         }
-
-   
-
         
         EndDrawing();  
     }
 
+    UnloadMusicStream(music);
+    CloseAudioDevice();
     UnloadFont(Game::font);
     CloseWindow();
     return 0;
