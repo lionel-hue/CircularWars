@@ -1,6 +1,6 @@
 # <p align ="center" style="background-color:skyblue; color:white; width:30%; border-radius:.5em; position:relative; left:35%;">Circular Attack !</p>
 
-#### **Circular attack** is a simple 2D shooter survival game inspired by it's web version originally created by youtuber *Chris Courses*<br /><br /><p align="center"><img src="./assets/Screenshot from 2025-04-30 11-32-00.png" style="width:75%;" alt=""/></p> <br />
+#### **Circular attack** is a simple 2D shooter survival game inspired by it's web version originally created by youtuber *Chris Courses*<br /><br /><p align="center"><img src="./assets/InShot_20250430_133148594.gif" style="width:75%;" alt=""/></p> <br />
 
 ## <p style="color:skyblue;">Features</p>
 * 💙 cool modern health icon 
