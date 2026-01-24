@@ -333,8 +333,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues:
 1. Check the [Troubleshooting](#troubleshooting) section
-2. Open an [Issue](https://github.com/yourusername/CircularWars/issues)
-3. Email: your.email@example.com
+2. Open an [Issue](https://github.com/lionel-hue/CircularWars/issues)
+3. Email: sissolionel@gmail.com
 
 ---
 

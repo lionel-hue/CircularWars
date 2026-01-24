@@ -29,7 +29,7 @@
 
 # Debug files
 *.dSYM/
-debug/
+debug/test.txt
 Debug/
 release/
 Release/
