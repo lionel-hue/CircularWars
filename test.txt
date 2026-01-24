@@ -1,13 +1,110 @@
+.:
+app
+assets
+audio
+bin
+CircularWars.code-workspace
+Dockerfile
+fonts
+header
+learnDocker.md
+raylib
+README.md
+src
+test.txt
+
+./app:
+circular_wars
+
+./assets:
+health_original.png
+health.png
+InShot_20250430_133148594.gif
+Screenshot from 2025-04-30 11-32-00.png
+
+./audio:
+game-over-deep-robotic-voice-tomas-herudek-1-1-00-03.mp3
+laser-gun-81720.mp3
+Warriyo - Mortals (feat. Laura Brehm).mp3
+
+./bin:
+compile.cmd
+compile.sh
+
+./fonts:
+BAUHS93.TTF
+FiraCode-Medium.ttf
+impact.ttf
+
+./header:
+declare.h
+
+./raylib:
+libraylib.a
+raygui.h
+raylib.h
+
+./src:
+game.cc
+main.cpp
+tools.cc
+
+
+
 
 ═══════════════════════════════════════════════════
 Directory Structure:
 ═══════════════════════════════════════════════════\n
-📁 app
-└── circular_wars
+📁 header/
+└── declare.h
 
 ═══════════════════════════════════════════════════
 File Contents:
 ═══════════════════════════════════════════════════
 
-File: app/circular_wars
+File: header/declare.h
+---
+#ifndef DECLARE_H #define DECLARE_H #include "raylib.h" #include <vector> #include <random> extern unsigned short screenX; extern unsigned short screenY; namespace Tools { class Interval { public: double lastUpdatedTime; double currentTime; Interval(void); bool set(double); }; class Timeout : public Interval { private: bool stop; public: Timeout(void); bool set(float); void reset(void); }; } namespace Game { extern bool pause; extern bool over; extern unsigned short score; extern unsigned short health; extern Font font; class Sprite { public: Vector2 pos; float radius; Vector2 vel; Color color; bool IsOffScreen( int, int ); double lastUpdatedTime; Sprite( Vector2, float, Vector2, Color ); void draw( void ); void update( void ); }; void spawnEnemies( std::vector<Sprite>& ); void displayScore(unsigned short&); class Health { public: Image image; Texture2D texture; const char* imagePath; Vector2 pos; float scale; unsigned short value; Health( const char*, Vector2, float, unsigned short ); ~Health(); void draw( void ); }; void displayHealth(unsigned short&); } #endif
+
+Processed 1 files from header/
+
+═══════════════════════════════════════════════════
+Directory Structure:
+═══════════════════════════════════════════════════\n
+📁 src/
+├── game.cc
+├── main.cpp
+└── tools.cc
+
+═══════════════════════════════════════════════════
+File Contents:
+═══════════════════════════════════════════════════
+
+File: src/game.cc
+---
+/* * Game namespace, contains.. * * Player obj, * enemy obj, * projectile obj ... * */ #include "raylib.h" #include "declare.h" #include <cstdio> bool Game::pause = false; bool Game::over = false; unsigned short Game::score = 0; Game::Sprite::Sprite( Vector2 pos, float radius, Vector2 vel, Color color ) { this->pos = pos; this->vel = vel; this->radius = radius; this->color = color; this->lastUpdatedTime = 0; } void Game::Sprite::draw() { DrawCircle( this->pos.x, this->pos.y, this->radius, this-> color ); } void Game::Sprite::update( void ) { this->draw(); this->pos.x += this->vel.x; this->pos.y += this->vel.y; } bool Game::Sprite::IsOffScreen( int screenX, int screenY ) { return( this->pos.x < 0 || this->pos.x > screenX || this->pos.y < 0 || this->pos.y > screenY ); } //Random values between 0 and 1 generation to build random circlar enemies. static std::default_random_engine e; static std::uniform_real_distribution<double> RAND(0, 1); void Game::spawnEnemies(std::vector< Game::Sprite >& enemies) { Vector2 pos; if ( RAND(e) < .5 ) { pos.x = RAND(e) < .5 ? 0 : (float)screenX; pos.y = RAND(e) * screenY; } else { pos.x = RAND(e) * screenX; pos.y = RAND(e) < .5 ? 0 : (float)screenX; } double angle = atan2( (float)screenY / 2 - pos.y, (float)screenX / 2 - pos.x); Vector2 vel { (float)cos(angle) * 4, (float)sin(angle) * 4 }; enemies.push_back( Game::Sprite( pos, RAND(e) * (50 - 10) + 10, vel, Color{ 255,0,0,255 } )); } void Game::displayScore(unsigned short& score) { Vector2 fontSize = MeasureTextEx(Game::font, "My Score :", 25.0f, 1.0f); DrawTextEx( Game::font, "My Score :", Vector2{15.0f, 15.0f}, 25.0f, 1.0f, Color{0,0,255,255} ); char buffer[4]; sprintf(buffer, "%3d", score ); DrawTextEx ( Game::font, buffer, Vector2 { (float)(15 + fontSize.x + 5), 15.0f }, 25, 1.0f, Color{255,255,255,255} ); } Game::Health::Health( const char* imagePath, Vector2 pos, float scale, unsigned short value ) { this->imagePath = imagePath; this->scale = scale; this->pos = pos; this->value = value; this->image = LoadImage( imagePath ); this->texture = LoadTextureFromImage(image); UnloadImage(this->image); } Game::Health::~Health() { UnloadTexture(this->texture); } void Game::Health::draw() { //Player's health texture component. DrawTextureEx ( this->texture, this->pos, .0f, this->scale, Color{255,255,255,255} ); } void Game::displayHealth(unsigned short& health) { //Player's health numeric value displayer char buffer[4]; sprintf(buffer, "%3d", health); DrawTextEx ( Game::font, buffer, Vector2 { (float)screenX - 110.0f, 15.0f }, 25, 1.0f, Color{ 255,255,255,255 } ); }
+
+File: src/main.cpp
+---
+#define RAYGUI_IMPLEMENTATION #include "raylib.h" #include "raygui.h" #include "declare.h" #include <vector> #include <cmath> //Screen size unsigned short screenX = 1300; unsigned short screenY = 750; //Fonts Font Game::font; int main( /*int argc, char **argv*/void ) { // Game Window and target fps set... InitWindow( screenX, screenY, "Circular Wars" ); SetTargetFPS(60); Game::font = LoadFont("../fonts/BAUHS93.TTF"); InitAudioDevice(); Sound shoot = LoadSound("../audio/laser-gun-81720.mp3"); Sound game_over = LoadSound("../audio/game-over-deep-robotic-voice-tomas-herudek-1-1-00-03.mp3"); Music background_music = LoadMusicStream("../audio/Warriyo - Mortals (feat. Laura Brehm).mp3"); PlayMusicStream(background_music); //Player and it's health instance, // projectile array, enemy array(projectile and enemy are many ) Game::Sprite player ( Vector2{ screenX / 2.0f, screenY / 2.0f }, 50.0f, Vector2{ 0, 0 }, Color{ 255, 255, 255, 255 } ); //Player's Health instance Game::Health health ( "../assets/health.png", Vector2{ (float)screenX - 150, 15.0f, }, .09f, 100 //Max health value ); //Arrays of multiple instances of game entities... std::vector<Game::Sprite> projectiles; std::vector<Game::Sprite> enemies; std::vector<Tools::Interval>intervals(2); std::vector<Tools::Timeout>timeouts(1); while( !WindowShouldClose() ) { UpdateMusicStream(background_music); //Game::Projectiles creation.. if( IsMouseButtonPressed( MOUSE_RIGHT_BUTTON ) || IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) ) { PlaySound(shoot); double angle = atan2( GetMouseY() - screenY/2, GetMouseX() - screenX/2); Vector2 velocity { (float)cos(angle)*8, (float)sin(angle)*8 }; projectiles.push_back( Game::Sprite( Vector2{ screenX / 2.0f, screenY / 2.0f }, 10.0f, velocity, BLUE)); } //Checking if projectile is off screen for(int i = 0; i < projectiles.size(); ++i ) { if ( projectiles[i].IsOffScreen( screenX, screenY ) ) { projectiles.erase( projectiles.begin() + i ); --i; }; } //Enemy spawning... intervals[0].set(1) ? Game::spawnEnemies(enemies) : (void)0; //All windows preset set : OK, post settings in progress... BeginDrawing(); ClearBackground(Color{ 0, 0, 0, 255 }); //GuiButton(Rectangle{40,40,40,60}, "hello"); if (!Game::over) { if (!Game::pause) { //Draw Score and it's current value Game::displayScore(Game::score); //Draw player... player.draw(); //Draw Player's Health texture and value health.draw(); Game::displayHealth(health.value); //Draw projectiles for (int i = 0; i < projectiles.size(); ++i) { projectiles[i].update(); } //Draw enemies for (int i = 0; i < enemies.size(); ++i) { enemies[i].update(); bool removeEnemy = false; //Projectile hitting enemy check... for (int j = 0; j < projectiles.size(); ++j) { float dist = hypot( projectiles[j].pos.x - enemies[i].pos.x, projectiles[j].pos.y - enemies[i].pos.y); if (dist - enemies[i].radius - projectiles[j].radius <= 0 ) { projectiles.erase(projectiles.begin() + j); enemies.erase(enemies.begin() + i); removeEnemy = true; break; } if (removeEnemy) break; } //Enemy hitting player check... float dist = hypot(player.pos.x - enemies[i].pos.x, player.pos.y - enemies[i].pos.y); if (health.value <= 0 && dist - player.radius - enemies[i].radius <= 0 ) { enemies.erase(enemies.begin() + i); Game::over = true; StopSound(shoot); StopMusicStream(background_music); PlaySound(game_over); break; } else if( dist - player.radius - enemies[i].radius <= 0 ) { enemies.erase(enemies.begin() + i); if( timeouts[0].set(1.0f) ) { health.value -= 20; timeouts[0].reset(); } } } //Increase current score according to interval... intervals[1].set(.2) ? Game::score++ : (unsigned short )0; } } else { Font font = LoadFont("../fonts/impact.ttf"); Vector2 fontSize = MeasureTextEx(font, "Game Over!", 100.0f, 1.0f); DrawRectangle( screenX / 2 - 200, screenY / 2 - 90, 400, 180, Color{ 255, 255, 255, 255 } ); DrawTextEx( font, "Game Over", Vector2 { (float)screenX / 2 - fontSize.x / 2, (float)screenY / 2 - fontSize.y / 2 }, 100.0f, 1.0f, Color{ 0, 0, 0, 255 } ); //TraceLog(LOG_INFO, "Game Over font Size, x : %.1f, y : %.1f", Game::fontSize.x, Game::fontSize.y); } EndDrawing(); } UnloadMusicStream(background_music); UnloadSound(shoot); UnloadSound(game_over); CloseAudioDevice(); UnloadFont(Game::font); CloseWindow(); return 0; }
+
+File: src/tools.cc
+---
+#include "declare.h" #include "raylib.h" #include <random> Tools::Interval::Interval(void) :lastUpdatedTime(0) {} bool Tools::Interval::set( double interval ) { this->currentTime = GetTime(); if( this->currentTime - this->lastUpdatedTime >= interval ) { this->lastUpdatedTime = this->currentTime; return true; } return false; } Tools::Timeout::Timeout(void) :stop(false) {} bool Tools::Timeout::set( float timeout ) { this->currentTime = GetTime(); if( this->currentTime - this->lastUpdatedTime >= timeout && !this->stop ) { this->lastUpdatedTime = this->currentTime; this->stop = true; return true; } return false; } void Tools::Timeout::reset(void) { this->stop = false; }
+
+Processed 3 files from src/
+
+═══════════════════════════════════════════════════
+Directory Structure:
+═══════════════════════════════════════════════════\n
+📁 raylib/
+├── libraylib.a
+├── raygui.h
+└── raylib.h
+
+═══════════════════════════════════════════════════
+File Contents:
+═══════════════════════════════════════════════════
+
+File: raylib/libraylib.a
 ---
