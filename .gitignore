@@ -1,1 +1,254 @@
-text.txt
+# .gitignore for Circular Wars Raylib C++ Project
+
+# Build outputs
+/app/
+/build/
+/binaries/
+/out/
+
+# Compiled object files
+*.o
+*.obj
+*.pch
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Libraries
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.app
+*.out
+
+# Debug files
+*.dSYM/
+debug/
+Debug/
+release/
+Release/
+x64/
+x86/
+Win32/
+*.pdb
+*.idb
+*.ilk
+
+# CMake build files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeUserPresets.json
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Visual Studio
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+
+# CLion
+cmake-build-*/
+
+# Xcode
+*.xcodeproj
+*.xcworkspace
+
+# Eclipse
+.settings/
+.project
+.cproject
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+*.autosave
+
+# Dependency directories
+deps/
+dependencies/
+external/
+
+# Cache and temp files
+.cache/
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage directory
+coverage/
+
+# Profiling data
+profdata/
+*.profraw
+
+# Package files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Documentation
+docs/_build/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Raylib specific
+raylib_build/
+raylib_src/
+
+# Game specific (add any you don't want to track)
+/test.txt
+/CircularWars.code-workspace
+
+# But we want to keep:
+# !/assets/           # We track game assets
+# !/audio/            # We track audio files  
+# !/fonts/            # We track font files
+# !/raylib/raylib.h   # We track raylib headers
+# !/raylib/raygui.h   # We track raygui headers
+
+# However, don't track large binary files (uncomment if needed)
+# *.mp3
+# *.wav
+# *.ogg
+# *.png
+# *.jpg
+# *.gif
+
+# Special case: Keep build scripts but ignore their outputs
+!/bin/compile.sh
+!/bin/compile.cmd
+/bin/*.exe
+/bin/*.out
+
+# Keep Dockerfile but ignore Docker build artifacts
+Dockerfile
+!.dockerignore
+docker-compose.override.yml
+.docker/
+docker-compose.yml
+
+# Unity builds (if you use that approach)
+*.unity
+*.unitypackage
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# User-specific files
+*_user.*
+*.user
+*.userosscache
+*.sln.docstates
+
+# Performance logs
+*.trace
+*.trace.*
+
+# Testing
+/test-results/
+/TestResults/
+
+# Package lock files (if you use npm for build tools)
+package-lock.json
+yarn.lock
+
+# Python (if using Python scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Java (if using Java tools)
+*.class
+*.war
+*.ear
+
+# Node (if using Node.js tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ruby (if using Ruby tools)
+/.bundle
+/vendor/bundle
+*.gem
+/.byebug_history
+
+# Rust (if using Rust tools)
+/target/
+**/*.rs.bk
+
+# Go (if using Go tools)
+/vendor/
+*.test
+*.out
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Project specific patterns to ignore
+*.layout
+*.workspace
+*.userprefs
