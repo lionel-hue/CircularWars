@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Game Screenshot](./assets/Screenshot%20from%202025-04-30%2011-32-00.png)
+![Game Screenshot](./assets/InShot_20250430_133148594.gif)
 
 *A fast-paced circular shooter game with enemies attacking from all directions!*
 
